@@ -27,7 +27,7 @@
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
     <canvas id="unity-canvas" tabindex="-1" style="background: #231F20;"></canvas>
     <!-- Tam ekran butonunu ekliyoruz -->
-    <button id="fullscreen-btn">Tam Ekran</button>
+    <button id="fullscreen-btn">Full Screen</button>
 
     <script src="Build/sweep.loader.js"></script>
     <script>
@@ -50,7 +50,7 @@
 
         document.body.style.textAlign = "left";
       } else {
-        // Bilgisayarlar için boyut
+        // Bilgisayarlar için varsayılan boyut
         canvas.width = 1920;
         canvas.height = 1620;
       }
@@ -77,6 +77,21 @@
         } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
           document.documentElement.msRequestFullscreen();
         }
+        
+        // Tam ekran yapıldığında çözünürlüğü 1920x1080 yap
+        window.addEventListener('resize', function () {
+          if (document.fullscreenElement) {
+            // Tam ekran modundaysak
+            canvas.width = 1920;
+            canvas.height = 1080;
+            canvas.style.width = "100%";
+            canvas.style.height = "100%";
+          } else {
+            // Tam ekran dışındaysa, varsayılan çözünürlük
+            canvas.width = 1920;
+            canvas.height = 1620;
+          }
+        });
       });
     </script>
   </body>
