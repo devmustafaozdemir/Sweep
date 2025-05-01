@@ -5,29 +5,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | SweepBird</title>
     <style>
-      /* Tam ekran butonu stilini ekliyoruz */
-      #fullscreen-btn {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        padding: 10px 20px;
-        background-color: #1e90ff;
-        color: white;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        z-index: 1000;
-      }
-      #fullscreen-btn:hover {
-        background-color: #4682b4;
+      #unity-canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        margin: 0 auto;
       }
     </style>
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
     <canvas id="unity-canvas" tabindex="-1" style="background: #231F20;"></canvas>
-    <!-- Tam ekran butonunu ekliyoruz -->
-    <button id="fullscreen-btn">Full Screen</button>
 
     <script src="Build/sweep.loader.js"></script>
     <script>
@@ -52,7 +39,7 @@
       } else {
         // Bilgisayarlar için varsayılan boyut
         canvas.width = 1920;
-        canvas.height = 1620;
+        canvas.height = 1080;
       }
 
       // Unity oyununu başlatıyoruz
@@ -66,32 +53,15 @@
         productVersion: "1.0",
       });
 
-      // Tam ekran işlevini ekliyoruz
-      document.getElementById('fullscreen-btn').addEventListener('click', function () {
-        if (document.documentElement.requestFullscreen) {
-          document.documentElement.requestFullscreen();
-        } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-          document.documentElement.mozRequestFullScreen();
-        } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari ve Opera
-          document.documentElement.webkitRequestFullscreen();
-        } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-          document.documentElement.msRequestFullscreen();
+      // Ekran boyutunu değiştirdiğimizde canvas boyutlarını güncelliyoruz
+      window.addEventListener('resize', function () {
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+          canvas.width = 1080;
+          canvas.height = 1920;
+        } else {
+          canvas.width = 1920;
+          canvas.height = 1080;
         }
-        
-        // Tam ekran yapıldığında çözünürlüğü 1920x1080 yap
-        window.addEventListener('resize', function () {
-          if (document.fullscreenElement) {
-            // Tam ekran modundaysak
-            canvas.width = 1920;
-            canvas.height = 1080;
-            canvas.style.width = "100%";
-            canvas.style.height = "100%";
-          } else {
-            // Tam ekran dışındaysa, varsayılan çözünürlük
-            canvas.width = 1920;
-            canvas.height = 1620;
-          }
-        });
       });
     </script>
   </body>
