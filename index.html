@@ -46,12 +46,16 @@
     }
 
     #unity-progress-bar-full {
-      height: 100%;
-      width: 0%;
-      background: #00aaff;
-      transition: width 0.3s ease;
-      border-radius: 15px;
-    }
+  height: 100%;
+  width: 0%;
+  background: #00aaff;
+  transition: width 0.3s ease;
+  border-radius: 15px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 
     #progress-percentage {
       position: absolute;
@@ -128,7 +132,7 @@
       </div>
 
       <div id="loading-tips">
-        <p id="tip-text">Yükleniyor...</p>
+        <p id="tip-text">Loading...</p>
       </div>
     </div>
 
