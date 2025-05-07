@@ -17,9 +17,19 @@
       align-items: center;
     }
 
-    #top-logo {
-      width: 200px;
-      margin: 20px 0 10px 0;
+    #top-bar {
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 13px;
+      background-color: transparent;
+      color: #00aaff;
+    }
+
+    #top-bar a {
+      color: #00aaff;
+      text-decoration: none;
+      font-weight: 500;
     }
 
     #unity-container {
@@ -73,20 +83,12 @@
       pointer-events: none;
     }
 
-    #info-box {
-      max-width: 540px;
-      margin: 30px 20px;
-      padding: 20px;
-      background-color: #222;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      text-align: center;
-    }
-
-    #info-box p {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #ccc;
+    #unity-footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -104,10 +106,12 @@
 </head>
 <body>
 
-  <!-- Üstte sadece logo -->
-  <img id="top-logo" src="TemplateData/unity-logo-light.png" alt="SweepBird Logo" />
+  <!-- Üst bilgi barı -->
+  <div id="top-bar">
+    <a href="mailto:info@sweep.com">info@sweep.com</a> &nbsp; | &nbsp; Powered by <strong>SWEEP</strong>
+  </div>
 
-  <!-- Oyun ve yükleme alanı -->
+  <!-- Unity WebGL oyun ve yükleme alanı -->
   <div id="unity-container">
     <canvas id="unity-canvas" tabindex="-1"></canvas>
     <div id="unity-loading-bar">
@@ -117,16 +121,13 @@
       </div>
     </div>
     <div id="unity-warning"></div>
-  </div>
 
-  <!-- Bilgilendirme alanı -->
-  <div id="info-box">
-    <p>
-      SweepBird oyununa hoş geldin!<br><br>
-      Ekrana tıklayarak veya dokunarak kuşu zıplat, borulara çarpmadan ilerlemeye çalış.<br>
-      Oyun tamamen mobil ve masaüstü uyumlu şekilde Unity ile geliştirildi.<br><br>
-      Başarılar!
-    </p>
+    <!-- Unity Footer -->
+    <div id="unity-footer">
+      <div id="unity-webgl-logo"></div>
+      <div id="unity-fullscreen-button"></div>
+      <div id="unity-build-title">SweepBird</div>
+    </div>
   </div>
 
   <script>
@@ -155,7 +156,7 @@
         progressBarFull.style.width = percent + "%";
         progressText.textContent = percent + "%";
       }).then(() => {
-        loadingBar.style.display = "none"; // Oyun yüklendiğinde çubuğu gizle
+        loadingBar.style.display = "none";
       }).catch((message) => {
         alert(message);
       });
