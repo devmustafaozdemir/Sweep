@@ -21,7 +21,7 @@
       background-repeat: no-repeat;
       background-size: contain;
       background-position: center;
-      margin: 0 auto 20px auto;
+      margin: 0 auto;
     }
 
     #unity-loading-bar {
@@ -30,6 +30,10 @@
       margin: 0 auto;
       padding: 10px;
       text-align: center;
+    }
+
+    .spacer {
+      height: 90px; /* 3x progress bar height */
     }
 
     #unity-progress-bar-empty {
@@ -43,10 +47,10 @@
 
     #unity-progress-bar-full {
       height: 100%;
-  width: 0%;
-  background: #0088CC;
-  transition: width 0.3s ease;
-  border-radius: 15px; /* EKLENDİ */
+      width: 0%;
+      background: #00aaff;
+      transition: width 0.3s ease;
+      border-radius: 15px;
     }
 
     #progress-percentage {
@@ -62,6 +66,13 @@
       color: #fff;
       font-weight: bold;
       pointer-events: none;
+    }
+
+    #loading-tips {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #bbb;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -109,9 +120,15 @@
 
     <div id="unity-loading-bar">
       <div id="unity-logo"></div>
+      <div class="spacer"></div>
+
       <div id="unity-progress-bar-empty">
         <div id="unity-progress-bar-full"></div>
         <div id="progress-percentage">0%</div>
+      </div>
+
+      <div id="loading-tips">
+        <p id="tip-text">Yükleniyor...</p>
       </div>
     </div>
 
@@ -132,25 +149,25 @@
   </div>
 
   <script>
-    var container = document.querySelector("#unity-container");
-    var canvas = document.querySelector("#unity-canvas");
-    var loadingBar = document.querySelector("#unity-loading-bar");
-    var progressBarFull = document.querySelector("#unity-progress-bar-full");
-    var progressText = document.querySelector("#progress-percentage");
-    var fullscreenButton = document.querySelector("#unity-fullscreen-button");
-    var warningBanner = document.querySelector("#unity-warning");
+    const container = document.querySelector("#unity-container");
+    const canvas = document.querySelector("#unity-canvas");
+    const loadingBar = document.querySelector("#unity-loading-bar");
+    const progressBarFull = document.querySelector("#unity-progress-bar-full");
+    const progressText = document.querySelector("#progress-percentage");
+    const fullscreenButton = document.querySelector("#unity-fullscreen-button");
+    const warningBanner = document.querySelector("#unity-warning");
 
     function unityShowBanner(msg, type) {
       function updateBannerVisibility() {
         warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
       }
-      var div = document.createElement('div');
+      const div = document.createElement('div');
       div.innerHTML = msg;
       warningBanner.appendChild(div);
       if (type == 'error') div.style = 'background: red; padding: 10px;';
       else {
         if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-        setTimeout(function () {
+        setTimeout(() => {
           warningBanner.removeChild(div);
           updateBannerVisibility();
         }, 5000);
@@ -158,9 +175,9 @@
       updateBannerVisibility();
     }
 
-    var buildUrl = "Build";
-    var loaderUrl = buildUrl + "/SweepFlip.loader.js";
-    var config = {
+    const buildUrl = "Build";
+    const loaderUrl = buildUrl + "/SweepFlip.loader.js";
+    const config = {
       dataUrl: buildUrl + "/SweepFlip.data",
       frameworkUrl: buildUrl + "/SweepFlip.framework.js",
       codeUrl: buildUrl + "/SweepFlip.wasm",
@@ -173,7 +190,7 @@
     };
 
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      var meta = document.createElement('meta');
+      const meta = document.createElement('meta');
       meta.name = 'viewport';
       meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
       document.getElementsByTagName('head')[0].appendChild(meta);
@@ -186,11 +203,11 @@
 
     loadingBar.style.display = "block";
 
-    var script = document.createElement("script");
+    const script = document.createElement("script");
     script.src = loaderUrl;
     script.onload = () => {
       createUnityInstance(canvas, config, (progress) => {
-        let percentage = Math.round(progress * 100);
+        const percentage = Math.round(progress * 100);
         progressBarFull.style.width = percentage + "%";
         progressText.textContent = percentage + "%";
       }).then((unityInstance) => {
@@ -202,8 +219,22 @@
         alert(message);
       });
     };
-
     document.body.appendChild(script);
+
+    // Tip rotation script
+    const tips = [
+      "$500 in prizes — every single day!",
+      "Only the Top 10 get the cash!",
+      "Only the Top 10 get the cash!",
+      "Scores reset daily at 00:00 UTC!"
+    ];
+    let tipIndex = 0;
+    const tipElement = document.getElementById("tip-text");
+
+    setInterval(() => {
+      tipIndex = (tipIndex + 1) % tips.length;
+      tipElement.textContent = tips[tipIndex];
+    }, 4000);
   </script>
 </body>
 </html>
