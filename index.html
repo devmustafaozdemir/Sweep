@@ -7,20 +7,21 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <style>
+      /* Üstteki Unity logosu */
       #unity-logo {
-      width: 527px;
-      height: 51px;
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position: center;
-      margin: 0 auto;
-      margin-bottom: 20px; /* yeni eklenen boşluk */
-     }
+        width: 527px;
+        height: 51px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        margin: 0 auto;
+        margin-bottom: 20px;
+      }
 
-
+      /* Yükleme çubuğu */
       #unity-loading-bar {
         width: 527px;
-        margin: 20px auto 0 auto;
+        margin: 0 auto;
         text-align: center;
       }
 
@@ -56,6 +57,7 @@
         pointer-events: none;
       }
 
+      /* Tema algısı ile logo seçimi */
       @media (prefers-color-scheme: dark) {
         #unity-logo {
           background-image: url('TemplateData/unity-logo-dark.png');
@@ -67,11 +69,32 @@
           background-image: url('TemplateData/unity-logo-light.png');
         }
       }
+
+      /* Sayfa altındaki footer logo alanı */
+      #custom-footer {
+        width: 100%;
+        padding: 30px 0;
+        text-align: center;
+        background-color: transparent;
+        margin-top: 40px;
+      }
+
+      #custom-footer img {
+        height: 40px;
+        object-fit: contain;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+      }
+
+      #custom-footer img:hover {
+        opacity: 1;
+      }
     </style>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1"></canvas>
+
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -79,6 +102,7 @@
           <div id="progress-percentage">0%</div>
         </div>
       </div>
+
       <div id="unity-warning"></div>
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
@@ -86,6 +110,12 @@
         <div id="unity-build-title">SweepBird</div>
       </div>
     </div>
+
+    <!-- ALT FOOTER LOGO -->
+    <div id="custom-footer">
+      <img src="TemplateData/footer-logo.png" alt="Footer Logo">
+    </div>
+
     <script>
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
