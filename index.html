@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Unity WebGL Player | SweepBird</title>
-  <link rel="shortcut icon" href="TemplateData/favicon.ico">
-  <link rel="stylesheet" href="TemplateData/style.css">
+  <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+  <link rel="stylesheet" href="TemplateData/style.css" />
   <style>
     body {
       margin: 0;
@@ -33,43 +33,25 @@
     }
 
     .spacer {
-      height: 90px; /* 3x progress bar height */
+      height: 90px;
     }
 
     #unity-progress-bar-empty {
       width: 100%;
       height: 30px;
-      background: #444;
-      border-radius: 15px;
+      background: transparent;
+      border: 2px solid #ccc;
+      border-radius: 4px;
       overflow: hidden;
       position: relative;
     }
 
     #unity-progress-bar-full {
-  height: 100%;
-  width: 0%;
-  background: #00aaff;
-  transition: width 0.3s ease;
-  border-radius: 15px;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-
-    #progress-percentage {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
       height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      color: #fff;
-      font-weight: bold;
-      pointer-events: none;
+      width: 0%;
+      background: #ffffff;
+      transition: width 0.3s ease;
+      border-radius: 0;
     }
 
     #loading-tips {
@@ -120,7 +102,7 @@
 </head>
 <body>
   <div id="unity-container" class="unity-desktop">
-    <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1"></canvas>
+    <canvas id="unity-canvas" width="1920" height="1080" tabindex="-1"></canvas>
 
     <div id="unity-loading-bar">
       <div id="unity-logo"></div>
@@ -128,11 +110,10 @@
 
       <div id="unity-progress-bar-empty">
         <div id="unity-progress-bar-full"></div>
-        <div id="progress-percentage">0%</div>
       </div>
 
       <div id="loading-tips">
-        <p id="tip-text">Loading...</p>
+        <p>Every day, the Top 10 players win a share of $500!</p>
       </div>
     </div>
 
@@ -144,7 +125,6 @@
     </div>
   </div>
 
-  <!-- ALT BİLGİ ALANI -->
   <div id="custom-footer">
     <p>
       <a href="mailto:info@sweep.com">info@sweep.com</a> &nbsp; | &nbsp;
@@ -157,7 +137,6 @@
     const canvas = document.querySelector("#unity-canvas");
     const loadingBar = document.querySelector("#unity-loading-bar");
     const progressBarFull = document.querySelector("#unity-progress-bar-full");
-    const progressText = document.querySelector("#progress-percentage");
     const fullscreenButton = document.querySelector("#unity-fullscreen-button");
     const warningBanner = document.querySelector("#unity-warning");
 
@@ -168,9 +147,9 @@
       const div = document.createElement('div');
       div.innerHTML = msg;
       warningBanner.appendChild(div);
-      if (type == 'error') div.style = 'background: red; padding: 10px;';
+      if (type === 'error') div.style = 'background: red; padding: 10px;';
       else {
-        if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+        if (type === 'warning') div.style = 'background: yellow; padding: 10px;';
         setTimeout(() => {
           warningBanner.removeChild(div);
           updateBannerVisibility();
@@ -213,7 +192,6 @@
       createUnityInstance(canvas, config, (progress) => {
         const percentage = Math.round(progress * 100);
         progressBarFull.style.width = percentage + "%";
-        progressText.textContent = percentage + "%";
       }).then((unityInstance) => {
         loadingBar.style.display = "none";
         fullscreenButton.onclick = () => {
@@ -224,21 +202,6 @@
       });
     };
     document.body.appendChild(script);
-
-    // Tip rotation script
-    const tips = [
-      "$500 in prizes — every single day!",
-      "Only the Top 10 get the cash!",
-      "Only the Top 10 get the cash!",
-      "Scores reset daily at 00:00 UTC!"
-    ];
-    let tipIndex = 0;
-    const tipElement = document.getElementById("tip-text");
-
-    setInterval(() => {
-      tipIndex = (tipIndex + 1) % tips.length;
-      tipElement.textContent = tips[tipIndex];
-    }, 4000);
   </script>
 </body>
 </html>
