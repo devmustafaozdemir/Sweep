@@ -8,15 +8,52 @@
     <link rel="stylesheet" href="TemplateData/style.css">
     <style>
       #unity-logo {
-        width: 1641px;
-        height: 158px;
+        width: 527px;
+        height: 51px;
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center;
         margin: 0 auto;
       }
 
-      /* Tema algısına göre logoyu değiştir */
+      #unity-loading-bar {
+        width: 527px;
+        margin: 20px auto 0 auto;
+        text-align: center;
+      }
+
+      #unity-progress-bar-empty {
+        width: 100%;
+        height: 30px;
+        background: #ccc;
+        border-radius: 15px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      #unity-progress-bar-full {
+        height: 100%;
+        width: 0%;
+        background: #007acc;
+        transition: width 0.3s ease;
+      }
+
+      #progress-percentage {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+        font-size: 16px;
+        color: #fff;
+        font-weight: bold;
+        pointer-events: none;
+      }
+
       @media (prefers-color-scheme: dark) {
         #unity-logo {
           background-image: url('TemplateData/unity-logo-dark.png');
@@ -37,9 +74,10 @@
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
           <div id="unity-progress-bar-full"></div>
+          <div id="progress-percentage">0%</div>
         </div>
       </div>
-      <div id="unity-warning"> </div>
+      <div id="unity-warning"></div>
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
@@ -51,6 +89,7 @@
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var progressText = document.querySelector("#progress-percentage");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
 
@@ -92,7 +131,6 @@
         document.getElementsByTagName('head')[0].appendChild(meta);
         container.className = "unity-mobile";
         canvas.className = "unity-mobile";
-        // config.devicePixelRatio = 1;
       } else {
         canvas.style.width = "1920px";
         canvas.style.height = "1080px";
@@ -104,7 +142,9 @@
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
+          let percentage = Math.round(progress * 100);
+          progressBarFull.style.width = percentage + "%";
+          progressText.textContent = percentage + "%";
         }).then((unityInstance) => {
           loadingBar.style.display = "none";
           fullscreenButton.onclick = () => {
