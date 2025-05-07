@@ -15,32 +15,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 100vh;
     }
 
-    #top-bar {
-      width: 100%;
-      text-align: center;
-      padding: 10px 0;
-      font-size: 13px;
-      background-color: transparent;
-      color: #00aaff;
-    }
-
-    #top-bar a {
-      color: #00aaff;
-      text-decoration: none;
-      font-weight: 500;
+    #top-logo {
+      width: 200px;
+      margin: 20px 0 10px 0;
     }
 
     #unity-container {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      flex: 1;
       width: 100%;
-      min-height: calc(100vh - 40px);
     }
 
     canvas {
@@ -48,34 +34,12 @@
       max-width: 540px;
       aspect-ratio: 9 / 16;
       background-color: #000;
-      height: auto !important;
     }
 
     #unity-loading-bar {
       width: 527px;
-      margin-top: 20px;
+      margin-top: 10px;
       text-align: center;
-    }
-
-    #unity-logo {
-      width: 250px;
-      height: 80px;
-      margin: 0 auto 20px;
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position: center;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      #unity-logo {
-        background-image: url('TemplateData/unity-logo-dark.png');
-      }
-    }
-
-    @media (prefers-color-scheme: light) {
-      #unity-logo {
-        background-image: url('TemplateData/unity-logo-light.png');
-      }
     }
 
     #unity-progress-bar-empty {
@@ -109,41 +73,60 @@
       pointer-events: none;
     }
 
-    #unity-footer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
+    #info-box {
+      max-width: 540px;
+      margin: 30px 20px;
+      padding: 20px;
+      background-color: #222;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    #info-box p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #top-logo {
+        content: url('TemplateData/unity-logo-dark.png');
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      #top-logo {
+        content: url('TemplateData/unity-logo-light.png');
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Üst bilgi -->
-  <div id="top-bar">
-    <a href="mailto:info@sweep.com">info@sweep.com</a> &nbsp; | &nbsp; Powered by <strong>SWEEP</strong>
-  </div>
+  <!-- Üstte sadece logo -->
+  <img id="top-logo" src="TemplateData/unity-logo-light.png" alt="SweepBird Logo" />
 
-  <!-- Unity -->
+  <!-- Oyun ve yükleme alanı -->
   <div id="unity-container">
     <canvas id="unity-canvas" tabindex="-1"></canvas>
-
     <div id="unity-loading-bar">
-      <div id="unity-logo"></div>
       <div id="unity-progress-bar-empty">
         <div id="unity-progress-bar-full"></div>
         <div id="progress-percentage">0%</div>
       </div>
     </div>
-
     <div id="unity-warning"></div>
+  </div>
 
-    <div id="unity-footer">
-      <div id="unity-webgl-logo"></div>
-      <div id="unity-fullscreen-button"></div>
-      <div id="unity-build-title">SweepBird</div>
-    </div>
+  <!-- Bilgilendirme alanı -->
+  <div id="info-box">
+    <p>
+      SweepBird oyununa hoş geldin!<br><br>
+      Ekrana tıklayarak veya dokunarak kuşu zıplat, borulara çarpmadan ilerlemeye çalış.<br>
+      Oyun tamamen mobil ve masaüstü uyumlu şekilde Unity ile geliştirildi.<br><br>
+      Başarılar!
+    </p>
   </div>
 
   <script>
@@ -161,9 +144,7 @@
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "SweepBird",
-      productVersion: "1.0",
-      matchWebGLToCanvasSize: false,
-      devicePixelRatio: window.devicePixelRatio || 1 // 🎯 kaliteyi artıran satır
+      productVersion: "1.0"
     };
 
     const script = document.createElement("script");
@@ -174,7 +155,7 @@
         progressBarFull.style.width = percent + "%";
         progressText.textContent = percent + "%";
       }).then(() => {
-        loadingBar.style.display = "none";
+        loadingBar.style.display = "none"; // Oyun yüklendiğinde çubuğu gizle
       }).catch((message) => {
         alert(message);
       });
