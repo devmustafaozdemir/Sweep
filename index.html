@@ -36,11 +36,11 @@
     #unity-container {
       display: flex;
       flex-direction: column;
-      justify-content: center; /* Dikey ortalama */
-      align-items: center;     /* Yatay ortalama */
+      justify-content: center;
+      align-items: center;
       flex: 1;
       width: 100%;
-      min-height: calc(100vh - 40px); /* üst bar için yer bırak */
+      min-height: calc(100vh - 40px);
     }
 
     canvas {
@@ -53,8 +53,29 @@
 
     #unity-loading-bar {
       width: 527px;
-      margin-top: 10px;
+      margin-top: 20px;
       text-align: center;
+    }
+
+    #unity-logo {
+      width: 250px;
+      height: 80px;
+      margin: 0 auto 20px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #unity-logo {
+        background-image: url('TemplateData/unity-logo-dark.png');
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      #unity-logo {
+        background-image: url('TemplateData/unity-logo-light.png');
+      }
     }
 
     #unity-progress-bar-empty {
@@ -95,32 +116,21 @@
       gap: 10px;
       margin-top: 10px;
     }
-
-    @media (prefers-color-scheme: dark) {
-      #top-logo {
-        content: url('TemplateData/unity-logo-dark.png');
-      }
-    }
-
-    @media (prefers-color-scheme: light) {
-      #top-logo {
-        content: url('TemplateData/unity-logo-light.png');
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Üst bilgi barı -->
+  <!-- Üst bilgi -->
   <div id="top-bar">
     <a href="mailto:info@sweep.com">info@sweep.com</a> &nbsp; | &nbsp; Powered by <strong>SWEEP</strong>
   </div>
 
-  <!-- Unity WebGL oyun alanı -->
+  <!-- Unity -->
   <div id="unity-container">
     <canvas id="unity-canvas" tabindex="-1"></canvas>
 
     <div id="unity-loading-bar">
+      <div id="unity-logo"></div>
       <div id="unity-progress-bar-empty">
         <div id="unity-progress-bar-full"></div>
         <div id="progress-percentage">0%</div>
@@ -129,7 +139,6 @@
 
     <div id="unity-warning"></div>
 
-    <!-- Unity Footer -->
     <div id="unity-footer">
       <div id="unity-webgl-logo"></div>
       <div id="unity-fullscreen-button"></div>
@@ -153,7 +162,8 @@
       companyName: "DefaultCompany",
       productName: "SweepBird",
       productVersion: "1.0",
-      matchWebGLToCanvasSize: false // 🎯 Unity'nin canvas'ı küçültmesini engeller
+      matchWebGLToCanvasSize: false,
+      devicePixelRatio: window.devicePixelRatio || 1 // 🎯 kaliteyi artıran satır
     };
 
     const script = document.createElement("script");
