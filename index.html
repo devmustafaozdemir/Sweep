@@ -38,8 +38,10 @@
 
     #unity-progress-bar-empty {
   width: 100%;
-  border: 2px solid #fff; /* sadece beyaz çerçeve */
-  background: transparent; /* arka plan tamamen saydam */
+  height: 20px;
+  background: transparent;        /* Çerçevenin içi saydam */
+  border: 2px solid #ffffff;      /* Beyaz çerçeve */
+  border-radius: 0;
   overflow: hidden;
   box-sizing: border-box;
   position: relative;
@@ -48,11 +50,14 @@
 #unity-progress-bar-full {
   width: 0%;
   height: 100%;
-  background: #fff; /* iç bar beyaz */
+  background-color: #ffffff;      /* Dolan kısım beyaz */
   margin: 0;
   padding: 0;
+  border: none;
+  border-radius: 0;
   box-sizing: border-box;
 }
+
 
     #loading-tips {
       text-align: center;
