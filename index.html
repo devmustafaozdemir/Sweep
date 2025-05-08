@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Unity WebGL Player | SweepBird</title>
-  <link rel="shortcut icon" href="TemplateData/favicon.ico">
-  <link rel="stylesheet" href="TemplateData/style.css">
+  <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+  <link rel="stylesheet" href="TemplateData/style.css" />
   <style>
     body {
       margin: 0;
@@ -14,61 +14,92 @@
       font-family: sans-serif;
     }
 
-    #unity-loading-bar {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 40px;
+    #unity-logo {
+      width: 100%;
+      max-width: 320px;
+      height: 51px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      margin: 0 auto;
     }
 
-    #unity-logo {
-      width: 180px;
-      height: auto;
-      background: url('TemplateData/logo.png') no-repeat center;
-      background-size: contain;
-      margin-bottom: 60px;
+    #unity-loading-bar {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .spacer {
+      height: 30px;
     }
 
     #unity-progress-bar-empty {
-      width: 300px;
-      height: 20px;
-      background-color: #444;
-      border-radius: 10px;
-      overflow: hidden;
-    }
+  width: 100%;
+  height: 20px;
+  background: transparent;        /* Çerçevenin içi saydam */
+  border: 2px solid #ffffff;      /* Beyaz çerçeve */
+  border-radius: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+}
 
-    #unity-progress-bar-full {
-      height: 100%;
-      width: 0%;
-      background-color: #00ccff;
-      transition: width 0.3s ease;
-    }
+#unity-progress-bar-full {
+  width: 0%;
+  height: 100%;
+  background-color: #ffffff;      /* Dolan kısım beyaz */
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-sizing: border-box;
+}
 
-    #loading-text {
-      color: white;
-      margin-top: 20px;
-      font-size: 16px;
+
+    #loading-tips {
       text-align: center;
-      min-height: 24px;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #bbb;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #unity-logo {
+        background-image: url('TemplateData/unity-logo-dark.png');
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      #unity-logo {
+        background-image: url('TemplateData/unity-logo-light.png');
+      }
+    }
+
+    #custom-footer {
+      width: 100%;
+      margin-top: 60px;
+      padding: 20px 0;
+      text-align: center;
+      font-size: 14px;
+      color: #aaa;
+      background: transparent;
+    }
+
+    #custom-footer a {
+      color: #00aaff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    #custom-footer a:hover {
+      text-decoration: underline;
     }
 
     @media (max-width: 600px) {
-      #unity-progress-bar-empty {
-        width: 240px;
-        height: 16px;
-      }
-
-      #unity-logo {
-        width: 140px;
-        margin-bottom: 40px;
-      }
-
-      #loading-text {
-        font-size: 14px;
-        padding: 0 10px;
-      }
-
-      #unity-footer {
+      #custom-footer {
         display: none;
       }
     }
@@ -80,14 +111,18 @@
 
     <div id="unity-loading-bar">
       <div id="unity-logo"></div>
+      <div class="spacer"></div>
+
       <div id="unity-progress-bar-empty">
         <div id="unity-progress-bar-full"></div>
       </div>
-      <div id="loading-text">Every day, the Top 10 players win a share of $500!</div>
+
+      <div id="loading-tips">
+        <p>Every day, the Top 10 players win a share of $500!</p>
+      </div>
     </div>
 
-    <div id="unity-warning"> </div>
-
+    <div id="unity-warning"></div>
     <div id="unity-footer">
       <div id="unity-webgl-logo"></div>
       <div id="unity-fullscreen-button"></div>
@@ -95,25 +130,32 @@
     </div>
   </div>
 
+  <div id="custom-footer">
+    <p>
+      <a href="mailto:info@sweep.com">info@sweep.com</a> &nbsp; | &nbsp;
+      <span>Powered by <strong>SWEEP</strong></span>
+    </p>
+  </div>
+
   <script>
-    var container = document.querySelector("#unity-container");
-    var canvas = document.querySelector("#unity-canvas");
-    var loadingBar = document.querySelector("#unity-loading-bar");
-    var progressBarFull = document.querySelector("#unity-progress-bar-full");
-    var fullscreenButton = document.querySelector("#unity-fullscreen-button");
-    var warningBanner = document.querySelector("#unity-warning");
+    const container = document.querySelector("#unity-container");
+    const canvas = document.querySelector("#unity-canvas");
+    const loadingBar = document.querySelector("#unity-loading-bar");
+    const progressBarFull = document.querySelector("#unity-progress-bar-full");
+    const fullscreenButton = document.querySelector("#unity-fullscreen-button");
+    const warningBanner = document.querySelector("#unity-warning");
 
     function unityShowBanner(msg, type) {
       function updateBannerVisibility() {
         warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
       }
-      var div = document.createElement('div');
+      const div = document.createElement('div');
       div.innerHTML = msg;
       warningBanner.appendChild(div);
-      if (type == 'error') div.style = 'background: red; padding: 10px;';
+      if (type === 'error') div.style = 'background: red; padding: 10px;';
       else {
-        if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-        setTimeout(function () {
+        if (type === 'warning') div.style = 'background: yellow; padding: 10px;';
+        setTimeout(() => {
           warningBanner.removeChild(div);
           updateBannerVisibility();
         }, 5000);
@@ -121,9 +163,9 @@
       updateBannerVisibility();
     }
 
-    var buildUrl = "Build";
-    var loaderUrl = buildUrl + "/SweepFlip.loader.js";
-    var config = {
+    const buildUrl = "Build";
+    const loaderUrl = buildUrl + "/SweepFlip.loader.js";
+    const config = {
       dataUrl: buildUrl + "/SweepFlip.data",
       frameworkUrl: buildUrl + "/SweepFlip.framework.js",
       codeUrl: buildUrl + "/SweepFlip.wasm",
@@ -132,10 +174,11 @@
       productName: "SweepBird",
       productVersion: "1.0",
       showBanner: unityShowBanner,
+      devicePixelRatio: window.devicePixelRatio || 1
     };
 
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      var meta = document.createElement('meta');
+      const meta = document.createElement('meta');
       meta.name = 'viewport';
       meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
       document.getElementsByTagName('head')[0].appendChild(meta);
@@ -148,11 +191,12 @@
 
     loadingBar.style.display = "block";
 
-    var script = document.createElement("script");
+    const script = document.createElement("script");
     script.src = loaderUrl;
     script.onload = () => {
       createUnityInstance(canvas, config, (progress) => {
-        progressBarFull.style.width = 100 * progress + "%";
+        const percentage = Math.round(progress * 100);
+        progressBarFull.style.width = percentage + "%";
       }).then((unityInstance) => {
         loadingBar.style.display = "none";
         fullscreenButton.onclick = () => {
@@ -162,7 +206,6 @@
         alert(message);
       });
     };
-
     document.body.appendChild(script);
   </script>
 </body>
