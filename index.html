@@ -190,7 +190,6 @@
     const fullscreenButton = document.querySelector("#unity-fullscreen-button");
     const warningBanner = document.querySelector("#unity-warning");
 
-    // Sarı uyarı kutusunu kapat
     function unityShowBanner(msg, type) {
       console.warn("Unity WebGL: " + msg);
     }
@@ -231,6 +230,7 @@
         progressBarFull.style.width = percentage + "%";
       }).then((unityInstance) => {
         loadingBar.style.display = "none";
+        document.getElementById("mobile-powered").style.display = "none"; // yazıyı gizle
         fullscreenButton.onclick = () => {
           unityInstance.SetFullscreen(1);
         };
