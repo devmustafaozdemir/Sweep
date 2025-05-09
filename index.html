@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Unity WebGL Player | SweepBird</title>
+  <title>Play SweepBird</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico" />
   <link rel="stylesheet" href="TemplateData/style.css" />
   <style>
@@ -32,7 +32,7 @@
 
     #unity-bar-wrapper {
       width: 100%;
-      max-width: 180px; /* %30 daha dar */
+      max-width: 180px;
       margin: 0 auto;
     }
 
@@ -62,15 +62,15 @@
       box-sizing: border-box;
     }
 
-  #loading-tips {
-  width: 180px; /* loading bar genişliğiyle birebir */
-  margin: 15px auto 0;
-  font-size: 11px; /* gerektiği kadar küçültüldü */
-  color: #bbb;
-  text-align: center;
-  line-height: 1.4;
-}
-
+    #loading-tips {
+      width: 180px;
+      margin: 15px auto 0;
+      font-size: 11px;
+      color: #bbb;
+      text-align: center;
+      line-height: 1.4;
+      word-break: break-word;
+    }
 
     @media (prefers-color-scheme: dark) {
       #unity-logo {
@@ -104,9 +104,21 @@
       text-decoration: underline;
     }
 
+    #mobile-powered {
+      display: none;
+    }
+
     @media (max-width: 600px) {
       #custom-footer {
         display: none;
+      }
+
+      #mobile-powered {
+        display: block;
+        text-align: center;
+        padding: 20px 0;
+        color: #ffffff;
+        font-size: 13px;
       }
     }
 
@@ -160,6 +172,10 @@
       <a href="mailto:info@sweep.com">info@sweep.com</a> &nbsp; | &nbsp;
       <span>Powered by <strong>SWEEP</strong></span>
     </p>
+  </div>
+
+  <div id="mobile-powered">
+    Powered by <strong>SWEEP</strong>
   </div>
 
   <script>
