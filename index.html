@@ -26,10 +26,14 @@
 
     #unity-loading-bar {
       width: 100%;
-      max-width: 320px;
-      margin: 0 auto;
       padding: 10px;
       text-align: center;
+    }
+
+    #unity-bar-wrapper {
+      width: 100%;
+      max-width: 224px; /* %30 daha dar */
+      margin: 0 auto;
     }
 
     .spacer {
@@ -129,8 +133,10 @@
       <div id="unity-logo"></div>
       <div class="spacer"></div>
 
-      <div id="unity-progress-bar-empty">
-        <div id="unity-progress-bar-full"></div>
+      <div id="unity-bar-wrapper">
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
       </div>
 
       <div id="loading-tips">
@@ -161,7 +167,7 @@
     const fullscreenButton = document.querySelector("#unity-fullscreen-button");
     const warningBanner = document.querySelector("#unity-warning");
 
-    // ✅ Sarı uyarı kutusunu tamamen kapat
+    // Sarı uyarı kutusunu kapat
     function unityShowBanner(msg, type) {
       console.warn("Unity WebGL: " + msg);
     }
