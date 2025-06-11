@@ -1,244 +1,174 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Play SweepBird v0.15</title>
-  <link rel="shortcut icon" href="TemplateData/favicon.ico" />
-  <link rel="stylesheet" href="TemplateData/style.css" />
-  <style>
-    body {
-      margin: 0;
-      background-color: #1a1a1a;
-      color: #fff;
-      font-family: sans-serif;
-    }
-
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | SweepBird</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+	<style>
+	#unity-logo {
+    background: url('logo.png') no-repeat center;
+    background-size: contain;
+    width: 100%;
+    max-width: 600px;
+    height: 150px;
+    margin: 0 auto;
+    aspect-ratio: 4 / 1;
+  }
+  
+  @media only screen and (max-width: 768px) {
     #unity-logo {
-      width: 100%;
-      max-width: 320px;
-      height: 51px;
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position: center;
-      margin: 0 auto;
+      max-width: 90vw;
+      height: auto;
     }
+  }
+#unity-progress-bar-empty {
+  width: 200px;
+  height: 20px;
+  background: #333333;
+  margin: auto;
+  position: relative;
+  border: 2px solid white;
+  box-sizing: border-box;
+}
 
-    #unity-loading-bar {
-      width: 100%;
-      padding: 10px;
-      text-align: center;
-    }
+#unity-progress-bar-full {
+  width: 0%;
+  height: 100%;
+  background: white;
+  position: absolute;
+  left: 0;
+  top: -10px;
+  transition: width 0.3s ease;
+  box-sizing: border-box;
+}
 
-    #unity-bar-wrapper {
-      width: 100%;
-      max-width: 180px;
-      margin: 0 auto;
-    }
-
-    .spacer {
-      height: 30px;
-    }
-
-    #unity-progress-bar-empty {
-      width: 100%;
-      height: 20px;
-      background: transparent;
-      border: 2px solid #ffffff;
-      border-radius: 0;
-      overflow: hidden;
-      box-sizing: border-box;
-      position: relative;
-    }
-
-    #unity-progress-bar-full {
-      width: 0%;
-      height: 100%;
-      background-color: #ffffff;
-      margin: 0;
-      padding: 0;
-      border: none;
-      border-radius: 0;
-      box-sizing: border-box;
-    }
-
-    #loading-tips {
-      width: 180px;
-      margin: 15px auto 0;
-      font-size: 12px;
-      color: #bbb;
-      text-align: center;
-      line-height: 1.4;
-      word-break: break-word;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      #unity-logo {
-        background-image: url('TemplateData/unity-logo-dark.png');
-      }
-    }
-
-    @media (prefers-color-scheme: light) {
-      #unity-logo {
-        background-image: url('TemplateData/unity-logo-light.png');
-      }
-    }
-
-    #custom-footer {
-      width: 100%;
-      margin-top: 60px;
-      padding: 20px 0;
-      text-align: center;
-      font-size: 14px;
-      color: #aaa;
-      background: transparent;
-    }
-
-    #custom-footer a {
-      color: #00aaff;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    #custom-footer a:hover {
-      text-decoration: underline;
-    }
-
-    #mobile-powered {
-      display: none;
-    }
-
-    @media (max-width: 600px) {
-      #custom-footer {
-        display: none;
-      }
-
-      #mobile-powered {
-        display: block;
-        position: fixed;
-        bottom: 10px;
-        width: 100%;
+#unity-footer {
+  display: none;
+}
+#custom-text {
+		width: 300px;
         text-align: center;
-        color: #ffffff;
+        color: gray;
+        font-family: Arial, sans-serif;
         font-size: 13px;
-        font-weight: 500;
-        z-index: 9999;
-      }
-    }
-
-    @media (min-width: 601px) {
-      #custom-footer {
-        font-size: 18px;
-        padding: 60px 0;
-        color: #ccc;
+		margin: 0 auto;
+        margin-top: 10px;
       }
 
-      #custom-footer a {
-        font-size: 18px;
-        color: #00ccff;
-      }
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+  }
 
-      #unity-footer {
-        display: none !important;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div id="unity-container" class="unity-desktop">
-    <canvas id="unity-canvas" width="1920" height="1080" tabindex="-1"></canvas>
+  #unity-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
 
-    <div id="unity-loading-bar">
-      <div id="unity-logo"></div>
-      <div class="spacer"></div>
+  #unity-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #231F20;
+  }
+</style>
 
-      <div id="unity-bar-wrapper">
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
           <div id="unity-progress-bar-full"></div>
         </div>
+        <div id="custom-text">Every day, the Top 10 players win</div>
+		<div id="custom-text">a share of $500!</div>
       </div>
-
-      <div id="loading-tips">
-        <p>Every day, the Top 10 players win a share of $500!</p>
+      <div id="unity-warning"></div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">SweepBird</div>
       </div>
     </div>
+    <script>
 
-    <div id="unity-warning"></div>
-    <div id="unity-footer">
-      <div id="unity-webgl-logo"></div>
-      <div id="unity-fullscreen-button"></div>
-      <div id="unity-build-title">SweepBird</div>
-    </div>
-  </div>
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var warningBanner = document.querySelector("#unity-warning");
 
-  <div id="custom-footer">
-    <p>
-      <a href="mailto:info@sweep.com">info@sweep.com</a> &nbsp; | &nbsp;
-      <span>Powered by <strong>SWEEP</strong></span>
-    </p>
-  </div>
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
 
-  <div id="mobile-powered">
-    Powered by <strong>SWEEP</strong>
-  </div>
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/sweepbuilds3.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/sweepbuilds3.data",
+        frameworkUrl: buildUrl + "/sweepbuilds3.framework.js",
+        codeUrl: buildUrl + "/sweepbuilds3.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Sweep",
+        productName: "SweepBird",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+      };
 
-  <script>
-    const container = document.querySelector("#unity-container");
-    const canvas = document.querySelector("#unity-canvas");
-    const loadingBar = document.querySelector("#unity-loading-bar");
-    const progressBarFull = document.querySelector("#unity-progress-bar-full");
-    const fullscreenButton = document.querySelector("#unity-fullscreen-button");
-    const warningBanner = document.querySelector("#unity-warning");
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        container.className = "unity-mobile";
+        canvas.className = "unity-mobile";
+      } else {
+      }
 
-    function unityShowBanner(msg, type) {
-      console.warn("Unity WebGL: " + msg);
-    }
+      loadingBar.style.display = "block";
 
-    const buildUrl = "Build";
-    const loaderUrl = buildUrl + "/SweepFlip.loader.js";
-    const config = {
-      dataUrl: buildUrl + "/SweepFlip.data",
-      frameworkUrl: buildUrl + "/SweepFlip.framework.js",
-      codeUrl: buildUrl + "/SweepFlip.wasm",
-      streamingAssetsUrl: "StreamingAssets",
-      companyName: "DefaultCompany",
-      productName: "SweepBird",
-      productVersion: "1.0",
-      showBanner: unityShowBanner,
-      devicePixelRatio: window.devicePixelRatio || 1
-    };
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+              }).then((unityInstance) => {
+                loadingBar.style.display = "none";
+                fullscreenButton.onclick = () => {
+                  unityInstance.SetFullscreen(1);
+                };
+              }).catch((message) => {
+                alert(message);
+              });
+            };
 
-    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      const meta = document.createElement('meta');
-      meta.name = 'viewport';
-      meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-      document.getElementsByTagName('head')[0].appendChild(meta);
-      container.className = "unity-mobile";
-      canvas.className = "unity-mobile";
-    } else {
-      canvas.style.width = "1920px";
-      canvas.style.height = "1080px";
-    }
+      document.body.appendChild(script);
 
-    loadingBar.style.display = "block";
-
-    const script = document.createElement("script");
-    script.src = loaderUrl;
-    script.onload = () => {
-      createUnityInstance(canvas, config, (progress) => {
-        const percentage = Math.round(progress * 100);
-        progressBarFull.style.width = percentage + "%";
-      }).then((unityInstance) => {
-        loadingBar.style.display = "none";
-        document.getElementById("mobile-powered").style.display = "none"; // yazıyı gizle
-        fullscreenButton.onclick = () => {
-          unityInstance.SetFullscreen(1);
-        };
-      }).catch((message) => {
-        alert(message);
-      });
-    };
-    document.body.appendChild(script);
-  </script>
-</body>
+    </script>
+  </body>
 </html>
